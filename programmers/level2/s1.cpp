@@ -1,4 +1,3 @@
-// 기능개발 문제
 #include <vector>
 #include <stack>
 #include <cmath>
