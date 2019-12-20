@@ -1,1 +1,1 @@
-## 알고리즘 학습 레파지토리
+## Algorithm practice repository
