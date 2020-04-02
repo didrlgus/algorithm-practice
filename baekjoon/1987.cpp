@@ -1,8 +1,6 @@
 // 1987. 알파벳
 #include<cstdio>
 #include<iostream>
-#include<vector>
-#include<algorithm>
 
 using namespace std;
 
@@ -16,7 +14,7 @@ int dy[]={0,0,1,-1};
 int dx[]={1,-1,0,0};
 
 int level=1;
-vector<int> v;
+int max_=-987987987;
 
 void dfs(int y,int x) {
     visited[y][x]=true;
@@ -40,7 +38,7 @@ void dfs(int y,int x) {
             level--;
         }
     }
-    v.push_back(level);
+    max_=max(max_,level);
 }
 
 int main() {
@@ -53,8 +51,7 @@ int main() {
 
     dfs(0,0);
 
-    sort(v.begin(),v.end(),greater<int>());
-    printf("%d\n",v[0]);
+    printf("%d\n",max_);
 
     return 0;
 }
