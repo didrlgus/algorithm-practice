@@ -1,0 +1,7 @@
+-- 동명 동물 수 찾기
+SELECT NAME, count(*) AS count
+  FROM ANIMAL_INS
+ WHERE NAME IS NOT NULL 
+GROUP BY NAME
+HAVING count(*) > 1
+ORDER BY NAME
