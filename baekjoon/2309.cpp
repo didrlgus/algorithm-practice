@@ -43,3 +43,49 @@ int main() {
 
     return 0;
 }
+
+/* 조합을 이용한 풀이
+#include<bits/stdc++.h>
+
+using namespace std;
+
+vector<int> v1;
+vector<int> v2;
+int k=7;
+
+void combi(int here, vector<int> &v2) {
+    if(v2.size()==k) {
+        int sum=0;
+        for(int idx:v2) sum+=v1[idx];
+
+        if(sum==100) {
+            for(int idx:v2) printf("%d\n",v1[idx]);
+            exit(0);
+        }
+
+        return;
+    }
+    for(int i=here+1;i<v1.size();i++) {
+        v2.push_back(i);
+        combi(i,v2);
+        v2.pop_back();
+    }
+    return;
+}
+
+int main() {
+
+    for(int i=0;i<9;i++) {
+        int a;
+        scanf("%d",&a);
+        v1.push_back(a);
+    }
+    
+    sort(v1.begin(),v1.end());
+    
+    // 9개중 7개 선택
+    combi(-1,v2);
+
+    return 0;
+}
+*/
