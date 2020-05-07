@@ -1,72 +1,62 @@
 // 13913. 숨바꼭질 4
-#include<cstdio>
-#include<queue>
-#include<vector>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-int n,k;
-queue<int> q;
+int a,b;
 bool visited[100005];
 int parent[100005];
+queue<int> q;
+
+int level;
 vector<int> v;
-
-void bfs(int current) {
-    // 시작점 큐에 추가
-    visited[current]=true;
-    q.push(current);
-
-    int t=0;
+void bfs(int y) {
+    visited[y]=true;
+    q.push(y);
 
     while(!q.empty()) {
         int size=q.size();
-
         while(size--) {
-            int front=q.front();
-            q.pop();
+            y=q.front(); q.pop();
 
-            if(front==k) {
-                printf("%d\n",t);
-
-                int cur=front;
-
-                v.push_back(cur);
-                while(cur!=n) {
+            if(y==b) {
+                printf("%d\n",level);
+                int cur=b;
+                v.push_back(b);
+                while(cur!=a) {             // 최상위 노드가 아닐때까지
                     v.push_back(parent[cur]);
                     cur=parent[cur];
                 }
 
                 for(int i=v.size()-1;i>=0;i--) printf("%d ",v[i]);
+                return;
             }
 
-            if(front-1>=0 && !visited[front-1]) {
-                visited[front-1]=true;
-                q.push(front-1);
-                parent[front-1]=front;
+            if(y-1>=0 && !visited[y-1]) {
+                visited[y-1]=true;
+                parent[y-1]=y;
+                q.push(y-1);
             }
-
-            if(front+1<=100000 && !visited[front+1]) {
-                visited[front+1]=true;
-                q.push(front+1);
-                parent[front+1]=front;
+            if(y+1<=100000 && !visited[y+1]) {
+                visited[y+1]=true;
+                parent[y+1]=y;
+                q.push(y+1);
             }
-
-            if(front*2<=100000 && !visited[front*2]) {
-                visited[front*2]=true;
-                q.push(front*2);
-                parent[front*2]=front;
+            if(y*2<=100000 && !visited[y*2]) {
+                visited[y*2]=true;
+                parent[y*2]=y;
+                q.push(y*2);
             }
         }
-
-        t++;
+        level++;
     }
 }
 
+
 int main() {
+    scanf("%d %d",&a,&b);
 
-    scanf("%d %d",&n,&k);
-
-    bfs(n);
+    bfs(a);
 
     return 0;
 }
