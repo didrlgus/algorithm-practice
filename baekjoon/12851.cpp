@@ -1,70 +1,46 @@
 // 12851. 숨바꼭질 2
-#include<cstdio>
-#include<queue>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-int n,k;
+int a,b;
+bool visited[100010];
+queue<int> q;
 
-struct p {
-    int c;
-    int l;    
-};
-
-queue<p> q;
-bool visited[100005];
-
-int cnt=0;
-int min_=0;
-
-void bfs(int current,int level) {
-    visited[current]=true;
-    q.push({current,level});
-
-    level++;
+int level,cnt;
+void bfs(int y) {
+    visited[y]=true;
+    q.push(y);
 
     while(!q.empty()) {
         int size=q.size();
 
         while(size--) {
-            int c=q.front().c;
-            int l=q.front().l;
-
+            y=q.front();
             q.pop();
-            visited[c]=true;
+            visited[y]=true;                    // 큐에서 뽑은 다음 바로 경로 저장, 경로를 이부분에서 true시켜주는 예외적인 상황
 
-            // 첫 발견 후 최단거리 경우 추가
-            if(min_ && c==k && l==min_) cnt++;
-            
-            // 최단거리 경우 첫 발견
-            if(!min_ && c==k) {
-                cnt++;
-                min_=l;
+            if(y==b) cnt++;
+
+            if(y+1<=100000 && !visited[y+1]) {
+                q.push(y+1);
             }
-
-            if(c-1>=0 && !visited[c-1]) {
-                q.push({c-1,level});
+            if(y-1>=0 && !visited[y-1]) {
+                q.push(y-1);
             }
-
-            if(c+1<=100000 && !visited[c+1]) {
-                q.push({c+1,level});
-            }
-
-            if(c*2<=100000 && !visited[c*2]) {
-                q.push({c*2,level});
+            if(y*2<=100000 && !visited[y*2]) {
+                q.push(y*2);
             }
         }
+        if(cnt>0) break;
         level++;
     }
-
-    printf("%d\n%d\n",min_,cnt);
 }
 
 int main() {
+    scanf("%d %d",&a,&b);
 
-    scanf("%d %d",&n,&k);
-
-    bfs(n,0);
-
+    bfs(a);
+    printf("%d\n%d\n",level,cnt);
     return 0;
 }
