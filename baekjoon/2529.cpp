@@ -1,5 +1,7 @@
-// 2529. 부등호
-#include<cstdio>
+// 2529. ???
+#include<bits/stdc++.h>
+
+using namespace std;
 
 int n;
 char c[15];
