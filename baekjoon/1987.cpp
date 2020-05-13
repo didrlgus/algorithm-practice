@@ -1,44 +1,36 @@
-// 1987. 알파벳
-#include<cstdio>
-#include<iostream>
+// ???
+#include<bits/stdc++.h>
 
 using namespace std;
 
 int n,m;
-
-char a[25][25];
+char arr[25][25];
 bool visited[25][25];
-bool check[30];
+bool check[110];
 
 int dy[]={0,0,1,-1};
 int dx[]={1,-1,0,0};
 
-int level=1;
-int max_=-987987987;
+int mx=-987654321;
 
-void dfs(int y,int x) {
-    visited[y][x]=true;
-    check[a[y][x]-'A']=true;
-    
+void dfs(int y,int x,int current) {
+    mx=max(mx,current);
+
     for(int i=0;i<4;i++) {
-        int ny=y+dy[i];
-        int nx=x+dx[i];
+        int ny=y+dy[i],nx=x+dx[i];
 
-        if(ny<0 || nx<0 || ny>=n || nx>=m) continue;
+        if(ny<0||nx<0||ny>=n||nx>=m) continue;
 
-        if(!visited[ny][nx] && !check[a[ny][nx]-'A']) {
+        if(!visited[ny][nx] && !check[arr[ny][nx]]) {
             visited[ny][nx]=true;
-            check[a[ny][nx]-'A']=true;
-            level++;
+            check[arr[ny][nx]]=true;
 
-            dfs(ny,nx);
+            dfs(ny,nx,current+1);
 
             visited[ny][nx]=false;
-            check[a[ny][nx]-'A']=false;
-            level--;
+            check[arr[ny][nx]]=false;
         }
     }
-    max_=max(max_,level);
 }
 
 int main() {
@@ -46,12 +38,13 @@ int main() {
     scanf("%d %d",&n,&m);
 
     for(int i=0;i<n;i++) {
-        for(int j=0;j<m;j++) cin >> a[i][j];
+        for(int j=0;j<m;j++) scanf(" %1c",&arr[i][j]);
     }
 
-    dfs(0,0);
-
-    printf("%d\n",max_);
+    visited[0][0]=true;
+    check[arr[0][0]]=true;
+    dfs(0,0,1);
+    printf("%d\n",mx);
 
     return 0;
 }
