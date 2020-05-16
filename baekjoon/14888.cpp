@@ -1,40 +1,41 @@
-// 14888. 연산자 끼워넣기
-#include<cstdio>
-#include<algorithm>
+// 연산자 끼워넣기
+#include<bits/stdc++.h>
 
 using namespace std;
 
 int n;
-int a[15];
-int o[4];
-int result[25];
-
-int max_=-987987987, min_=987987987;
-
-void dfs(int current, int plus, int minus, int mul, int div, int sum) {
-    // base condition
-    if(current>=n) {
-        max_=max(max_,sum);
-        min_=min(min_,sum);
-    } else {
-        if(plus>0) dfs(current+1,plus-1,minus,mul,div,sum+a[current]);
-        if(minus>0) dfs(current+1,plus,minus-1,mul,div,sum-a[current]);
-        if(mul>0) dfs(current+1,plus,minus,mul-1,div,sum*a[current]);
-        if(div>0) dfs(current+1,plus,minus,mul,div-1,sum/a[current]);
-    }
-}
-
+int arr[15];
+vector<int> v;
+int mx=-987654321,mn=987654321;
 int main() {
 
     scanf("%d",&n);
+    for(int i=0;i<n;i++) {
+        int a;
+        scanf("%d",&a);
+        arr[i]=a;
+    }
 
-    for(int i=0;i<n;i++) scanf("%d",&a[i]);
-    for(int i=0;i<4;i++) scanf("%d",&o[i]);
+    for(int i=0;i<4;i++) {
+        int a;
+        scanf("%d",&a);
 
-    dfs(1,o[0],o[1],o[2],o[3],a[0]);
+        for(int j=0;j<a;j++) v.push_back(i);        // 0->+, 1->-, 2->*, 3->/
+    }
 
-    printf("%d\n", max_);
-    printf("%d\n", min_);
+    do {
+        int a=arr[0];
+        for(int i=0;i<v.size();i++) {
+            if(v[i]==0) a+=arr[i+1];
+            else if(v[i]==1) a-=arr[i+1];
+            else if(v[i]==2) a*=arr[i+1];
+            else a/=arr[i+1];
+        }
+        mx=max(mx,a);
+        mn=min(mn,a);
+    } while(next_permutation(v.begin(),v.end()));
+
+    printf("%d\n%d\n",mx,mn);
 
     return 0;
 }
