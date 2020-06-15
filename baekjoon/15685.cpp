@@ -1,64 +1,43 @@
 // 드래곤 커브
 #include<bits/stdc++.h>
-
 using namespace std;
-
-int n;
-bool check[110][110];
-
-int dy[]={0,-1,0,1};
-int dx[]={1,0,-1,0};
-
+int n,ret,dy[]={0,-1,0,1},dx[]={1,0,-1,0};
 struct p {
-    int x,y,d,g;
+	int y,x,d,g;
 };
-
+vector<p> dc;
+vector<int> v[5][15];
+bool visited[105][105];
 int main() {
-
-    vector<vector<int>> v[4];
-    scanf("%d",&n);
-    
-    vector<p> dc;
-    for(int i=0;i<n;i++) {
-        int x,y,d,g;
-        scanf("%d %d %d %d",&x,&y,&d,&g);
-        dc.push_back({x,y,d,g});
-    }
-
-    for(int i=0;i<4;i++) {      // 0세대 채우기
-        vector<int> v2;
-        v2.push_back(i);    
-        v[i].push_back(v2);     // 방향 0(->)의 0세대
-    }
-
-    for(int i=0;i<4;i++) {      // 각 방향마다, 1~10세대 채우기
-        for(int j=1;j<=10;j++) {
-            vector<int> vv=v[i][j-1];
-            for(int k=vv.size()-1;k>=0;k--) {
-                vv.push_back((vv[k]+1)%4);
-            }
-            v[i].push_back(vv);
-        }
-    }
-
-    for(int i=0;i<dc.size();i++) {
-        int x=dc[i].x,y=dc[i].y,d=dc[i].d,g=dc[i].g;
-        check[y][x]=true;
-
-        int ny=y,nx=x;
-        for(int j=0;j<v[d][g].size();j++) {
-            ny+=dy[v[d][g][j]];
-            nx+=dx[v[d][g][j]];
-
-            if(ny<0||nx<0||ny>100||nx>100) continue;
-            check[ny][nx]=true;
-        }
-    }
-    int cnt=0;
-    for(int i=0;i<100;i++) {
-        for(int j=0;j<100;j++) {
-            if(check[i][j] && check[i+1][j] && check[i][j+1] && check[i+1][j+1]) cnt++;
-        }
-    }
-    printf("%d\n",cnt);
+	scanf("%d",&n);
+	for(int i=0;i<n;i++) {
+		int a,b,c,d;
+		scanf("%d %d %d %d",&a,&b,&c,&d);
+		dc.push_back({b,a,c,d});
+		visited[b][a]=true;
+	}
+	for(int i=0;i<4;i++) v[i][0].push_back(i);
+	for(int i=0;i<4;i++) {
+		for(int j=1;j<=10;j++) {
+			vector<int> vv=v[i][j-1];
+			for(int k=(int)vv.size()-1;k>=0;k--) vv.push_back((vv[k]+1)%4);
+			v[i][j]=vv;
+		}
+	}
+	for(auto iter:dc) {
+		int y=iter.y,x=iter.x,d=iter.d,g=iter.g;
+		int ny=y,nx=x;
+		for(auto dir:v[d][g]) {
+			ny+=dy[dir],nx+=dx[dir];
+			if(ny<0||nx<0||ny>100||nx>100) continue;
+			if(!visited[ny][nx]) visited[ny][nx]=true;
+		}		
+	}
+	for(int i=0;i<100;i++) {
+		for(int j=0;j<100;j++) {
+			if(visited[i][j]&&visited[i][j+1]&&visited[i+1][j]&&visited[i+1][j+1]) ret++;
+		}
+	}
+	printf("%d\n",ret);
+	return 0;
 }
