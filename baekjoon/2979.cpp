@@ -1,32 +1,17 @@
 // 트럭 주차
 #include<bits/stdc++.h>
-
 using namespace std;
-
-int a,b,c;
-int arr[110];
-int max_=-987987987;
-
+const int INF=987654321;
+int a,b,c,arr[105],lo=INF,hi=-INF,val[5],ret;
 int main() {
-
-    cin>>a>>b>>c;
-    
-    for(int i=0;i<3;i++) {
-        int s,e;
-        cin>>s>>e;
-
-        if(max_<e) max_=e;
-
-        for(int j=s;j<e;j++) arr[j]++;
-    }
-
-    int sum=0;
-
-    for(int i=1;i<max_;i++) {
-        if(arr[i]==1) sum+=a;
-        else if(arr[i]==2) sum+=b*2;
-        else if(arr[i]==3) sum+=c*3;
-    }
-
-    cout<<sum<<endl;
+	scanf("%d%d%d",&a,&b,&c);
+	val[1]=a,val[2]=b*2,val[3]=c*3;
+	for(int i=0;i<3;i++) {
+		int s,e;scanf("%d%d",&s,&e);
+		for(int i=s;i<e;i++) arr[i]++;
+		lo=min(lo,s);hi=max(hi,e);
+	}
+	for(int i=lo;i<hi;i++) ret+=val[arr[i]];
+	printf("%d\n",ret);
+	return 0;
 }
