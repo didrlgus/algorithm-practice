@@ -1,38 +1,21 @@
 // 싸이클
 #include<bits/stdc++.h>
-
 using namespace std;
-
-int arr[1000010];
-int n,p;
-
+int n,p,ret;
+bool check[105];
+vector<int> v;
 int main() {
-
-    scanf("%d %d",&n,&p);
-
-    //      67 31
-    // a 25 
-    int a=n;
-    int st=0;
-    while(true) {
-        a=(a*n)%p;
-
-        if(!arr[a]) {
-            arr[a]=true;
-        } else {
-            st=a;
-            break;
-        }
-    }
-
-    int b=st;
-    int cnt=0;
-    do {
-        cnt++;
-        b=(b*n)%p;
-    } while(b!=st);
-
-    printf("%d\n",cnt);
-
-    return 0;
+	scanf("%d%d",&n,&p);
+	int a=n*n%p;
+	while(!check[a]) {
+		check[a]=true;
+		v.push_back(a);
+		a=a*n%p;
+	}
+	int idx=0;
+	for(int i=0;i<(int)v.size();i++) {
+		if(v[i]==a) idx=i;
+	}
+	printf("%d\n",(int)v.size()-idx);
+	return 0;
 }
