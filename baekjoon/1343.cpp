@@ -2,7 +2,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 int n;
-string s,str;
+string s,ret;
 bool check(int idx,int type) {
 	for(int i=idx;i<idx+type;i++) {
 		if(s[i]!='X') return false;
@@ -11,26 +11,24 @@ bool check(int idx,int type) {
 }
 void go(int here) {
 	if(here>=n) {
-		cout<<str<<'\n';
+		cout<<ret<<'\n';
 		exit(0);
 		return;
 	}
-	string tmp=str;
+	string tmp=ret;
 	if(s[here]=='.') {
-		str+='.';
+		ret+='.';
 		go(here+1);
-		str=tmp;
 	} else {
 		if(check(here,4)) {
-			str+="AAAA";
+			ret+="AAAA";
 			go(here+4);
-			str=tmp;
 		} else if(check(here,2)) {
-			str+="BB";
+			ret+="BB";
 			go(here+2);
-			str=tmp;
 		}
 	}
+    ret=tmp;
 }
 int main() {
 	ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
