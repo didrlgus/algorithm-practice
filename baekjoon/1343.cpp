@@ -4,9 +4,7 @@ using namespace std;
 int n;
 string s,ret;
 bool check(int idx,int type) {
-	for(int i=idx;i<idx+type;i++) {
-		if(s[i]!='X') return false;
-	}
+	for(int i=idx;i<idx+type;i++) if(s[i]!='X') return false;
 	return true;
 }
 void go(int here) {
@@ -15,7 +13,6 @@ void go(int here) {
 		exit(0);
 		return;
 	}
-	string tmp=ret;
 	if(s[here]=='.') {
 		ret+='.';
 		go(here+1);
@@ -28,7 +25,6 @@ void go(int here) {
 			go(here+2);
 		}
 	}
-    ret=tmp;
 }
 int main() {
 	ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
