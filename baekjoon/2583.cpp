@@ -1,72 +1,37 @@
 // 영역 구하기
 #include<bits/stdc++.h>
-
 using namespace std;
-
-int a[110][110];
-int n,m,K;
-int visited[110][110];
-
-int dy[]={0,0,1,-1};
-int dx[]={1,-1,0,0};
-
-queue<pair<int,int>> q;
+int n,m,k,arr[105][105],dy[]={0,0,1,-1},dx[]={1,-1,0,0},ret;
+bool visited[105][105];
 vector<int> v;
-
-int bfs(int y,int x) {
-    int sum=1;
-    visited[y][x]=1;
-    q.push({y,x});
-
-    while(!q.empty()) {
-        tie(y,x)=q.front(); q.pop();
-
-        for(int i=0;i<4;i++) {
-            int ny=y+dy[i],nx=x+dx[i];
-
-            if(ny<0 || ny>=n || nx<0 || nx>=m) continue;
-            if(!visited[ny][nx] && a[ny][nx]==0) {
-                visited[ny][nx]=visited[y][x]+1;
-                q.push({ny,nx});
-                sum++;
-            }
-        }
-    }
-    return sum;
+int dfs(int y,int x) {
+	visited[y][x]=true;
+	int cnt=0;
+	for(int i=0;i<4;i++) {
+		int ny=y+dy[i],nx=x+dx[i];
+		if(ny<0||nx<0||ny>=n||nx>=m) continue;
+		if(!visited[ny][nx]&&!arr[ny][nx]) cnt+=dfs(ny,nx)+1;
+	}
+	return cnt;
 }
-
 int main() {
-
-    scanf("%d %d %d",&n,&m,&K);
-
-    for(int i=0;i<K;i++) {
-        int b,c,d,e;
-        scanf("%d %d %d %d",&b,&c,&d,&e);
-
-        for(int j=c;j<e;j++) {
-            for(int k=b;k<d;k++) {
-                a[j][k]=1;
-            }
-        }
-    }
-
-    int cnt=0;
-
-    for(int i=0;i<n;i++) {
-        for(int j=0;j<m;j++) {
-            if(!visited[i][j] && a[i][j]==0) {
-                int r=bfs(i,j);
-                v.push_back(r);
-                cnt++;
-            }
-        }
-    }
-
-    sort(v.begin(),v.end());
-
-    printf("%d\n",cnt);
-
-    for(int i=0;i<v.size();i++) printf("%d ",v[i]);
-
-    return 0;
+	scanf("%d%d%d",&m,&n,&k);
+	for(int t=0;t<k;t++) {
+		int a,b,c,d;scanf("%d%d%d%d",&a,&b,&c,&d);
+		for(int i=a;i<c;i++) {
+			for(int j=b;j<d;j++) arr[i][j]=1;
+		}
+	}
+	for(int i=0;i<n;i++) {
+		for(int j=0;j<m;j++) {
+			if(!visited[i][j]&&!arr[i][j]) {
+				ret++;
+				v.push_back(dfs(i,j)+1);
+			}
+		}
+	}
+	sort(v.begin(),v.end());
+	printf("%d\n",ret);
+	for(auto it:v) printf("%d ",it);
+	return 0;
 }
