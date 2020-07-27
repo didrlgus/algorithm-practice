@@ -1,31 +1,18 @@
 // ROT13
 #include<bits/stdc++.h>
-
 using namespace std;
-
+string s,ret;
 int main() {
-
-    string s;
-    getline(cin,s);
-
-    string ns="";
-    for(int i=0;i<s.size();i++) {
-        if(s[i]>='A' && s[i]<='Z') {
-            char c=s[i]+13;
-            if(c>'Z') c='A'+(c-'Z'-1);
-            ns+=c;
-        } else if(s[i]>='a' && s[i]<='z') {
-            if(s[i]>='s') {
-                ns+='f'+(s[i]-'s');
-                continue;
-            }
-            char c=s[i]+13;
-            if(c>'z') c='a'+(c-'z'-1);
-            ns+=c;
-        } else ns+=s[i];
-    }
-
-    cout<<ns<<endl;
-
-    return 0;
+	ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+	getline(cin,s);
+	for(auto c:s) {
+		if(c>='a'&&c<='z') {
+			if(c+13<='z') ret+=(c+13);
+			else ret+=(c+13-'z'+'a'-1);
+		} else if(c>='A'&&c<='Z') {
+			if(c+13<='Z') ret+=(c+13);
+			else ret+=(c+13-'Z'+'A'-1);
+		} else ret+=c;
+	}
+	cout<<ret<<'\n';
 }
