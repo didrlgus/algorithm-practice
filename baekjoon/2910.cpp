@@ -1,45 +1,30 @@
 // 빈도 정렬
 #include<bits/stdc++.h>
-
 using namespace std;
-
-int n,c;
-map<int,pair<int,int>> mp;      // 숫자, 개수, 순서
-
-bool cmp(pair<int,pair<int,int>> p1, pair<int,pair<int,int>> p2) {
-    if(p1.second.first==p2.second.first) {
-        return p1.second.second<p2.second.second;
+int n,m,order;
+map<int,pair<int,int>> mp;
+struct p {
+    int y,x,z;
+};
+vector<p> v;
+bool cmp(p p1, p p2) {
+    if(p1.x==p2.x) {
+        return p1.z<p2.z;
     }
-    return p1.second.first>p2.second.first;
+    return p1.x>p2.x;
 }
-
 int main() {
-    vector<pair<int,pair<int,int>>> v;
-    scanf("%d %d",&n,&c);
-
-    int order=1;
+    scanf("%d%d",&n,&m);
     for(int i=0;i<n;i++) {
-        int a;
-        scanf("%d",&a);
-
-        if(mp.find(a)!=mp.end()) {      // map에 이미 존재
-            mp[a].first++;
-        } else {
-            mp.insert({a,{1,order++}});
-        }
+        int a;scanf("%d",&a);
+        if(mp.find(a)==mp.end()) {
+            mp[a]={1,order++};
+        } else mp[a].first++;
     }
-
-    for(auto iter:mp) {
-        v.push_back({iter.first,{iter.second.first,iter.second.second}});
-    }
-
+    for(auto it:mp) v.push_back({it.first,it.second.first,it.second.second});
     sort(v.begin(),v.end(),cmp);
-
-    for(int i=0;i<v.size();i++) {
-        for(int j=0;j<v[i].second.first;j++) {
-            printf("%d ",v[i].first);
-        }
+    for(auto it:v) {
+        for(int i=0;i<it.x;i++) printf("%d ",it.y);
     }
-
     return 0;
 }
