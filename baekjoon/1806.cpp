@@ -1,50 +1,19 @@
-// 1806. 부분합
-#include<cstdio>
-#include<algorithm>
-
+// 부분합
+#include<bits/stdc++.h>
 using namespace std;
-
-int n,m;
-int a[100005];
-int low=0,high=0;
-
-int min_=987987987;
-
-// 투포인터 알고리즘
-void func() {
-    int sum=a[0];
-
-    while(high<n) {
-        if(sum<m) {
-            sum+=a[++high];
-        } else if(sum==m) {
-            int len=high-low+1;
-            min_=min(min_,len);
-
-            sum+=a[++high];
-        } else if(sum>m) {
-            int len=high-low+1;
-            min_=min(min_,len);
-
-            sum-=a[low++];
-
-            if(low>high && low<n) {
-                high=low;
-                sum=a[high];
-            }
-        }
-    }
-}
-
+const int INF=987654321;
+int n,s,arr[100005],lo,hi,sum,ret=INF;
 int main() {
-    scanf("%d %d",&n,&m);
-
-    for(int i=0;i<n;i++) scanf("%d",&a[i]);
-
-    func();
-
-    if(min_==987987987) printf("0\n");
-    else printf("%d\n",min_);
-
+    scanf("%d%d",&n,&s);
+    for(int i=0;i<n;i++) scanf("%d",&arr[i]);
+    while(true) {
+        if(sum>=s) {
+            ret=min(ret,hi-lo);
+            sum-=arr[lo++];
+        }
+        else if(hi==n) break;
+        else sum+=arr[hi++];
+    }
+    printf("%d\n",ret==INF?0:ret);
     return 0;
 }
