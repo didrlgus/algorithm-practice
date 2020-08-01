@@ -1,90 +1,23 @@
 // ???
 #include<bits/stdc++.h>
-
 using namespace std;
-
-int n,m;
+int n,m,dy[]={0,0,1,-1},dx[]={1,-1,0,0};
 char arr[25][25];
-
-int dy[]={0,0,1,-1};
-int dx[]={1,-1,0,0};
-
-int mx=-987654321;
-/* ?????? ??? ?? */
-// n?? ? ? ??(1) ??(0)? ???? ?? ??? ?? ? ?? ???? ???? ????.
-// ?? n? ? 30??? ??? ? ?? ??, ? ??? int??? ?? ??
-void dfs(int y,int x,int num,int cnt) {
-    mx=max(mx,cnt);
-
+int dfs(int y,int x,int visited) {
+    int ret=0;
     for(int i=0;i<4;i++) {
         int ny=y+dy[i],nx=x+dx[i];
-
         if(ny<0||nx<0||ny>=n||nx>=m) continue;
-        int next_=1<<(int)(arr[ny][nx]-'A');
-        
-        if(!(num&next_)) {
-            dfs(ny,nx,num|next_,cnt+1);
-        }
-    }
+        if(visited&(1<<(arr[ny][nx]-'A'))) continue;
+        ret=max(ret,dfs(ny,nx,visited|(1<<(arr[ny][nx]-'A')))+1);
+    }   
+    return ret;
 }
-
 int main() {
-
-    scanf("%d %d",&n,&m);
-
+    scanf("%d%d",&n,&m);
     for(int i=0;i<n;i++) {
         for(int j=0;j<m;j++) scanf(" %1c",&arr[i][j]);
     }
-
-    dfs(0,0,1<<(int)(arr[0][0]-'A'),1);
-    printf("%d\n",mx);
-
+    printf("%d\n",dfs(0,0,1<<(arr[0][0]-'A'))+1);
     return 0;
 }
-
-// int n,m;
-// char arr[25][25];
-// bool visited[25][25];
-// bool check[110];
-
-// int dy[]={0,0,1,-1};
-// int dx[]={1,-1,0,0};
-
-// int mx=-987654321;
-
-// void dfs(int y,int x,int current) {
-//     mx=max(mx,current);
-
-//     for(int i=0;i<4;i++) {
-//         int ny=y+dy[i],nx=x+dx[i];
-
-//         if(ny<0||nx<0||ny>=n||nx>=m) continue;
-
-//         if(!visited[ny][nx] && !check[arr[ny][nx]]) {
-//             visited[ny][nx]=true;
-//             check[arr[ny][nx]]=true;
-
-//             dfs(ny,nx,current+1);
-
-//             visited[ny][nx]=false;
-//             check[arr[ny][nx]]=false;
-//         }
-//     }
-// }
-
-// int main() {
-
-//     scanf("%d %d",&n,&m);
-
-//     for(int i=0;i<n;i++) {
-//         for(int j=0;j<m;j++) scanf(" %1c",&arr[i][j]);
-//     }
-
-//     visited[0][0]=true;
-//     check[arr[0][0]]=true;
-//     dfs(0,0,1);
-//     printf("%d\n",mx);
-
-//     return 0;
-// }
-
