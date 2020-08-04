@@ -1,17 +1,8 @@
 // 아기 상어
 #include<bits/stdc++.h>
 using namespace std;
-
-int n,arr[25][25],y,x,ret;
-int sharkSize=2,eatSize;
-int dy[]={0,0,1,-1},dx[]={1,-1,0,0};
+int n,arr[25][25],y,x,ret,sharkSize=2,eatSize,dy[]={0,0,1,-1},dx[]={1,-1,0,0};
 bool visited[25][25];
-bool cmp(pair<int,int> p1,pair<int,int> p2) {
-    if(p1.first==p2.first) {
-        return p1.second<p2.second;
-    }
-    return p1.first<p2.first;
-}
 int bfs(int yy,int xx) {
     fill(&visited[0][0],&visited[0][0]+25*25,false);
     queue<pair<int,int>> q;
@@ -40,12 +31,11 @@ int bfs(int yy,int xx) {
         if((int)v.size()>0) break;
     }
     if((int)v.size()==0) return -1;
-    sort(v.begin(),v.end(),cmp);
+    sort(v.begin(),v.end());
     y=v[0].first;x=v[0].second;
     arr[y][x]=0;
     return level;
 }
-
 int main() {
     scanf("%d",&n);
     for(int i=0;i<n;i++) {
