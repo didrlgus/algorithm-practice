@@ -1,59 +1,39 @@
 // 베스트앨범
 #include<bits/stdc++.h>
-
 using namespace std;
-
+map<string,int> mp;
+map<string,vector<pair<int,int>>> mp2;
+vector<pair<string,int>> v;
 bool cmp(pair<string,int> p1,pair<string,int> p2) {
     return p1.second>p2.second;
 }
-
 bool cmp2(pair<int,int> p1,pair<int,int> p2) {
+    if(p1.first==p2.first) return p1.second<p2.second;
     return p1.first>p2.first;
 }
-
 vector<int> solution(vector<string> genres, vector<int> plays) {
     vector<int> answer;
-
-    map<string, int> mp;
-    vector<pair<string, int>> v;
-
-    for(int i=0;i<genres.size();i++) {
+    for(int i=0;i<(int)genres.size();i++) {
         mp[genres[i]]+=plays[i];
+        mp2[genres[i]].push_back({plays[i],i});
     }
-
-    for(auto iter:mp) {
-        v.push_back({iter.first,iter.second});
-    }
-
-    sort(v.begin(),v.end(),cmp);    // second 기준 내림차순
-
-    for(int i=0;i<v.size();i++) {   // 장르
-        vector<pair<int,int>> v2;   // <plays,index>
-
-        for(int j=0;j<genres.size();j++) {
-            if(v[i].first==genres[j]) v2.push_back({plays[j],j});
+    for(auto it:mp) v.push_back({it.first,it.second});
+    sort(v.begin(),v.end(),cmp);
+    for(auto it:v) {
+        vector<pair<int,int>> tmp=mp2[it.first];
+        if((int)tmp.size()==1) {
+            answer.push_back(tmp.front().second);
+            continue;
         }
-
-        sort(v2.begin(),v2.end(),cmp2);     // first 기준 내림차순
-
-        if(v2.size()<2) answer.push_back(v2[0].second);
-        else {
-            answer.push_back(v2[0].second);
-            answer.push_back(v2[1].second);
-        }
+        sort(tmp.begin(),tmp.end(),cmp2);
+        answer.push_back(tmp[0].second),answer.push_back(tmp[1].second);
     }
-
     return answer;
 }
-
 int main() {
-
-    vector<string> genres={"classic", "pop", "classic", "classic", "pop"}; 
+    vector<string> genres={"classic", "pop", "classic", "classic", "pop"};
     vector<int> plays={500, 600, 150, 800, 2500};
-
-    vector<int> result=solution(genres,plays);
-
-    for(auto iter:result) printf("%d ",iter);
-
+    vector<int> answer=solution(genres,plays);
+    for(auto it:answer) printf("%d ",it);
     return 0;
 }
