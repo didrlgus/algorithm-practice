@@ -1,100 +1,74 @@
 // 미세먼지 안녕!
 #include<bits/stdc++.h>
 using namespace std;
-int n,m,t,arr[55][55],tmp[55][55],ret;
-bool visited[55][55];
-vector<pair<int,int>> v,v2;
-vector<int> v3;
-int dy[]={0,-1,0,1};
-int dx[]={1,0,-1,0};
-
+int n,m,t,arr[55][55],tmp[55][55],dy[]={0,0,1,-1},dx[]={1,-1,0,0},hy,hx,ly,lx,ret;
+vector<int> cleaner;
+vector<pair<int,int>> v1,v2;
+void spread() {
+    memset(tmp,0,sizeof(tmp));
+    for(int i=0;i<n;i++) {
+        for(int j=0;j<m;j++) {
+            if(arr[i][j]>0) {
+                int val=arr[i][j];
+                for(int d=0;d<4;d++) {
+                    int ny=i+dy[d],nx=j+dx[d];
+                    if(ny<0||nx<0||ny>=n||nx>=m) continue;
+                    if(arr[ny][nx]==-1) continue;
+                    tmp[ny][nx]+=val/5;
+                    arr[i][j]-=val/5;
+                }
+            }
+        }
+    }
+    for(int i=0;i<n;i++) {
+        for(int j=0;j<m;j++) arr[i][j]+=tmp[i][j];
+    }
+}
 void dfs(int y,int x,int dir) {
-    if(arr[y][x]==-1) return;
-    if(x==m) {
-        dfs(y-1,x-1,dir+1);
-        return;
-    }
-    if(y==-1) {
-        dfs(y+1,x-1,dir+1);
-        return;
-    }
-    if(x==-1) {
-        dfs(y+1,x+1,dir+1);
-        return;
-    }
-    v2.push_back({y,x});
-    v3.push_back({arr[y][x]});
+    if(y==hy&&x==hx) return;
+    if(x==m-1) dir=3; 
+    if(y==0) dir=1;
+    if(x==0) dir=2;
+    v1.push_back({y,x});
     dfs(y+dy[dir],x+dx[dir],dir);
-    return;
 }
 void dfs2(int y,int x,int dir) {
-    if(arr[y][x]==-1) return;
-    if(x==m) {
-        if(dir-1==-1) dir=4;
-        dfs2(y+1,x-1,dir-1);
-        return;
-    }
-    if(y==n) {
-        dfs2(y-1,x-1,dir-1);
-        return;
-    }
-    if(x==-1) {
-        dfs2(y-1,x+1,dir-1);
-        return;
-    }
+    if(y==ly&&x==lx) return;
+    if(x==m-1) dir=2;
+    if(y==n-1) dir=1;
+    if(x==0) dir=3;
     v2.push_back({y,x});
-    v3.push_back({arr[y][x]});
     dfs2(y+dy[dir],x+dx[dir],dir);
-    return;
+}
+void go() {
+    vector<int> vv1,vv2;
+    for(auto it:v1) vv1.push_back(arr[it.first][it.second]);
+    for(auto it:v2) vv2.push_back(arr[it.first][it.second]);
+    rotate(vv1.begin(),vv1.begin()+vv1.size()-1,vv1.end()); 
+    rotate(vv2.begin(),vv2.begin()+vv2.size()-1,vv2.end());
+    vv1[0]=0;vv2[0]=0;
+    for(int i=0;i<(int)v1.size();i++) arr[v1[i].first][v1[i].second]=vv1[i];
+    for(int i=0;i<(int)v2.size();i++) arr[v2[i].first][v2[i].second]=vv2[i];
 }
 int main() {
-    scanf("%d %d %d",&n,&m,&t);
+    scanf("%d%d%d",&n,&m,&t);
     for(int i=0;i<n;i++) {
         for(int j=0;j<m;j++) {
             scanf("%d",&arr[i][j]);
-            if(arr[i][j]==-1) v.push_back({i,j});
+            if(arr[i][j]==-1) cleaner.push_back(i*100+j);
         }
     }
+    hy=cleaner.front()/100,hx=cleaner.front()%100;
+    ly=cleaner.back()/100,lx=cleaner.back()%100;
+    dfs(hy,hx+1,0);
+    dfs2(ly,lx+1,0);
     while(t--) {
-        fill(&tmp[0][0],&tmp[0][0]+55*55,0);
-        for(int i=0;i<n;i++) {
-            for(int j=0;j<m;j++) {
-                if(arr[i][j]>0) {
-                    int cnt=0;
-                    for(int k=0;k<4;k++) {
-                        int ny=i+dy[k],nx=j+dx[k];
-                        if(ny<0||nx<0||ny>=n||nx>=m||arr[ny][nx]==-1) continue;
-                        tmp[ny][nx]+=arr[i][j]/5;
-                        cnt++;
-                    }
-                    tmp[i][j]+=arr[i][j]-arr[i][j]/5*cnt;
-                }
-            }
-        }
-        for(int i=0;i<n;i++) {
-            for(int j=0;j<m;j++) {
-                if(tmp[i][j]>0) {
-                    arr[i][j]=tmp[i][j];
-                }
-            }
-        }
-        int y=v[0].first,x=v[0].second;
-        dfs(y,x+1,0);
-        rotate(v3.begin(),v3.begin()+v3.size()-1,v3.end());
-        v3[0]=0;
-        for(int i=0;i<(int)v2.size();i++) arr[v2[i].first][v2[i].second]=v3[i];
-        v2.clear();v3.clear();
-        y=v[1].first,x=v[1].second;
-        dfs2(y,x+1,0);
-        rotate(v3.begin(),v3.begin()+v3.size()-1,v3.end());
-        v3[0]=0;
-        for(int i=0;i<(int)v2.size();i++) arr[v2[i].first][v2[i].second]=v3[i];
-        v2.clear();v3.clear();
-    }    
+        spread();
+        go();
+    }
     for(int i=0;i<n;i++) {
         for(int j=0;j<m;j++) if(arr[i][j]>0) ret+=arr[i][j];
     }
     printf("%d\n",ret);
-
     return 0;
 }
