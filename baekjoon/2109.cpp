@@ -1,22 +1,20 @@
 // 순회강연
 #include<bits/stdc++.h>
 using namespace std;
-int n;
+int n,ret;
 vector<pair<int,int>> v;
-priority_queue<int,vector<int>,greater<int>> pq;
+priority_queue<int,vector<int>,greater<>> pq;
 int main() {
     scanf("%d",&n);
     for(int i=0;i<n;i++) {
-        int p,d;
-        scanf("%d %d",&p,&d);
+        int p,d;scanf("%d%d",&p,&d);
         v.push_back({d,p});
     }
     sort(v.begin(),v.end());
-    int ret=0;
-    for(int i=0;i<n;i++) {
-        ret+=v[i].second;
-        pq.push(v[i].second);
-        if((int)pq.size()>v[i].first) {
+    for(auto it:v) {
+        ret+=it.second;
+        pq.push(it.second);
+        if((int)pq.size()>it.first) {
             ret-=pq.top();
             pq.pop();
         }
