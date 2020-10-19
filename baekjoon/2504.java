@@ -1,3 +1,4 @@
+// 괄호의 값
 import java.util.Scanner;
 import java.util.Stack;
 
