@@ -618,4 +618,20 @@
 
 ### lesson5
 ##### countDiv (2020/12/18)
-##### genomicRangeQuery.cpp (2020/12/18) -> 나중에 다시 풀어보기
+##### genomicRangeQuery (2020/12/18) -> 나중에 다시 풀어보기
+##### passingCars (2020/12/19)
+
+### lesson6
+##### distinct (2020/12/19)
+##### maxProductOfThree (2020/12/19)
+##### triangle (2020/12/19)
+
+### lesson7
+##### brackets (2020/12/19)
+##### fish (2020/12/19)
+##### nesting (2020/12/19)
+##### stoneWall (2020/12/19) -> 나중에 다시 풀어보기
+
+### lesson16
+##### maxNonoverlappingSegments (2020/12/19)
+##### tieRopes (2020/12/19)
