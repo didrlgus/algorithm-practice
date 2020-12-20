@@ -632,6 +632,14 @@
 ##### nesting (2020/12/19)
 ##### stoneWall (2020/12/19) -> 나중에 다시 풀어보기
 
+### lesson8
+##### dominator (2020/12/20)
+##### equiLeader (2020/12/20) -> 나중에 다시 풀어보기
+
+### lesson9
+##### maxProfit (2020/12/20) -> 나중에 다시 풀어보기
+##### maxSliceSum (2020/12/20) -> 나중에 다시 풀어보기
+
 ### lesson16
 ##### maxNonoverlappingSegments (2020/12/19)
 ##### tieRopes (2020/12/19)
