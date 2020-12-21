@@ -646,3 +646,13 @@
 ### lesson16
 ##### maxNonoverlappingSegments (2020/12/19)
 ##### tieRopes (2020/12/19)
+
+### lesson17
+##### numberSolitaire (2020/12/21) -> 나중에 다시 풀어보기
+
+### lesson90
+##### longestPassword (2020/12/21)
+##### floodDepth (2020/12/21) -> 나중에 다시 풀어보기
+
+### lesson92
+##### tennisTournament (2020/12/21)
