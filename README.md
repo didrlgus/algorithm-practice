@@ -658,3 +658,7 @@
 
 ### lesson92
 ##### tennisTournament (2020/12/21)
+
+### lesson99
+##### strSymmetryPoint (2020/12/22)
+##### treeHeight (2020/12/22) -> 나중에 다시 풀어보기
