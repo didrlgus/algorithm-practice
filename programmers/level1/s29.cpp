@@ -1,68 +1,45 @@
-// 비밀지도
-#include <string>
-#include <vector>
-#include <stack>
-#include <iostream>
-
+#include<bits/stdc++.h>
 using namespace std;
-
-char map1[20][20];
-char map2[20][20];
-
-void func(int n,vector<int> arr,char map[][20]) {
-    for(int i=0;i<n;i++) {
-        int num=arr[i];
-        stack<int> s;
-
-        if(num==0) {
-            s.push(0);
-        } else {
-            while(num>0) {
-                s.push(num%2);
-                num/=2;
-            }
-        }
-
-        int size=s.size();
-        if(s.size()<n) {
-            for(int j=0;j<n-size;j++) s.push(0);
-        }
-
-        for(int j=0;j<n;j++) {
-            int t=s.top();
-            s.pop();
-
-            if(t==1) map[i][j]='#';
-            else map[i][j]='0';
-        }
-    }
+vector<vector<int>> v1,v2;
+string ret="";
+void get_bin(int num) {
+    if(num==0) return;
+    get_bin(num/2);
+    ret+=to_string(num%2);
 }
-
+void func(int n,vector<int> &arr,vector<vector<int>> &v) {
+    for(auto it:arr) {
+        ret="";
+        get_bin(it);
+        while((int)ret.size()<n) ret="0"+ret;
+        vector<int> ret_v;
+        for(auto ch:ret) {
+            if(ch=='0') ret_v.push_back(0);
+            else ret_v.push_back(1);
+        }
+        v.push_back(ret_v);
+    }    
+}
 vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
     vector<string> answer;
-
-    func(n,arr1,map1);
-    func(n,arr2,map2);
+    func(n,arr1,v1);
+    func(n,arr2,v2);
 
     for(int i=0;i<n;i++) {
-        string s;
+        string str="";
         for(int j=0;j<n;j++) {
-            if(map1[i][j]=='#' || map2[i][j]=='#') s.append("#");
-            else s.append(" ");
+            int v1_val=v1[i][j],v2_val=v2[i][j];
+            if(v1_val==1||v2_val==1) str+="#";
+            else str+=" ";
         }
-        answer.push_back(s);
+        answer.push_back(str);
     }
-
     return answer;
 }
-
 int main() {
-    vector<int> arr1={9, 20, 28, 18, 11};
-    vector<int> arr2={30, 1, 21, 17, 28};
-
-    vector<string> answer=solution(5,arr1,arr2);
-
-    for(int i=0;i<answer.size();i++) cout << answer[i] << endl;
-
+    int n=1;
+    vector<int> arr1={1},arr2={0};
+    vector<string> ret=solution(n,arr1,arr2);
+    for(auto it:ret) cout<<it<<'\n';
     return 0;
 }
