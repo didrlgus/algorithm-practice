@@ -1,66 +1,31 @@
 // 실패율
-#include <string>
-#include <vector>
-#include <queue>
-#include <algorithm>
-
+#include<bits/stdc++.h>
 using namespace std;
-
-bool comp(pair<double, int>a, pair<double, int>b) {
-	if (a.first == b.first) {
-		return a.second < b.second; // 오름차순
-	}
-	else {
-		return a.first > b.first;   // 내림차순
-	}
+int arr[510],sum;
+vector<pair<int,double>> v;
+bool cmp(pair<int,double> p1,pair<int,double> p2) {
+    if(p1.second==p2.second) return p1.first<p2.first;
+    return p1.second>p2.second;
 }
-
 vector<int> solution(int N, vector<int> stages) {
     vector<int> answer;
-    queue<int> q;
-    // 오름차순
-    sort(stages.begin(),stages.end());
-
-    for(int i=0;i<stages.size();i++) q.push(stages[i]);
-
-    vector<pair<double,int>> v;
-
+    for(auto it:stages) arr[it]++;
+    for(int i=1;i<=N+1;i++) sum+=arr[i];
     for(int i=1;i<=N;i++) {
-        if(!q.empty()) {
-            int f=q.front();
-            int s=q.size();
-            int cnt=0;
-
-            while(f==i) {
-                q.pop();
-                f=q.front();
-                cnt++;
-            }
-            double d=cnt/(double)s;
-
-            v.push_back({d,i});
-        } else {
-            v.push_back({0,i});
+        if(arr[i]==0) v.push_back({i,0});
+        else {
+            v.push_back({i,(double)arr[i]/sum});
+            sum-=arr[i];
         }
     }
-
-    sort(v.begin(),v.end(),comp);
-
-    for(int i=0;i<v.size();i++) {
-        answer.push_back(v[i].second);
-    }
-
+    sort(v.begin(),v.end(),cmp);
+    for(auto it:v) answer.push_back(it.first);
     return answer;
 }
-
 int main() {
-
     int N=5;
-    vector<int> stages={2, 1, 2, 6, 2, 4, 3, 3};
-
-    vector<int> answer=solution(N,stages);
-
-    for(int i=0;i<answer.size();i++) printf("%d ",answer[i]);
-
+    vector<int> stages={2,1,2,6,2,4,3,3};
+    vector<int> ret=solution(N,stages);
+    for(auto it:ret) printf("%d ",it);
     return 0;
 }
