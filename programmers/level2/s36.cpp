@@ -1,62 +1,53 @@
 // [1차] 프렌즈4블록
-#include <string>
-#include <vector>
-
+#include<bits/stdc++.h>
 using namespace std;
-
-bool charChk(char c1,char c2) {
-    if(isupper(c1) && isupper(c2) && c1==c2) {               // 둘 다 대문자
-        return true;
-    } else if(islower(c1) && isupper(c2) && c1==c2+32) {     // c1 소문자, c2 대문자
-        return true;
-    } else if(isupper(c1) && islower(c2) && c1+32==c2) {     // c1 대문자, c2 소문자
-        return true;
-    } else if(islower(c1) && islower(c2) && c1==c2) {        // 둘다 소문자
-        return true;
-    } else return false;
-}
-
-int solution(int n, int m, vector<string> board) {
+vector<pair<int,int>> erase_v;
+int solution(int m, int n, vector<string> board) {
     int answer = 0;
-    
-    do {
-        bool flag=false;
-        for(int i=0;i<n-1;i++) {
-            for(int j=0;j<m-1;j++) {
-                if(charChk(board[i][j],board[i][j+1]) && charChk(board[i][j],board[i+1][j]) 
-                        && charChk(board[i][j],board[i+1][j+1])) {
-                    if(isupper(board[i][j])) {board[i][j]+=32; answer++; flag=true;}
-                    if(isupper(board[i][j+1])) {board[i][j+1]+=32; answer++; flag=true;}
-                    if(isupper(board[i+1][j])) {board[i+1][j]+=32; answer++; flag=true;}
-                    if(isupper(board[i+1][j+1])) {board[i+1][j+1]+=32; answer++; flag=true;}
+    while(true) {
+        erase_v.clear();
+        for(int i=0;i<m-1;i++) {
+            for(int j=0;j<n-1;j++) {
+                if(board[i][j]=='.') continue;
+                int y1=i,x1=j+1;
+                int y2=i+1,x2=j;
+                int y3=i+1,x3=j+1;
+                if(board[i][j]==board[y1][x1]&&board[y1][x1]==board[y2][x2]&&board[y2][x2]==board[y3][x3]) {
+                    erase_v.push_back({i,j});
+                    erase_v.push_back({y1,x1});
+                    erase_v.push_back({y2,x2});
+                    erase_v.push_back({y3,x3});
                 }
+
             }
         }
-
-        if(flag) {
-            for(int i=0;i<m;i++) {
-                for(int j=n-2;j>=0;j--) {
-                    for(int k=j;k<n-1;k++) {
-                        if(board[k+1][i]==' ' || islower(board[k+1][i])) {
-                            board[k+1][i]=board[k][i];
-                            board[k][i]=' ';
-                        } else break;
-                    }
+        if(erase_v.empty()) break;
+        for(auto it:erase_v) {
+            if(board[it.first][it.second]!='.') {
+                board[it.first][it.second]='.';
+                answer++;
+            }
+        }
+        for(int j=0;j<n;j++) {
+            queue<int> q;
+            for(int i=m-1;i>=0;i--) {
+                if(board[i][j]!='.') {
+                    q.push(board[i][j]);
+                    board[i][j]='.';
                 }
             }
-        } else break;
-    } while(true);
-
+            for(int i=m-1;i>=0;i--) {
+                if(q.empty()) break;
+                int f=q.front();q.pop();
+                board[i][j]=f;
+            }
+        }
+    }
     return answer;
 }
-
 int main() {
-
-    int n=4,m=5;
-    vector<string> board={"CCBDE","AAADE","AAABF","CCBBF"};
-
-    int result=solution(n,m,board);
-    printf("%d\n",result);
-    
+    int m=4,n=5;
+    vector<string> board={"CCBDE", "AAADE", "AAABF", "CCBBF"};
+    printf("%d\n",solution(m,n,board));
     return 0;
 }
