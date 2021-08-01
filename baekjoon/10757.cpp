@@ -5,42 +5,31 @@
 #include<vector>
 using namespace std;
 
-string A,B,r_A,r_B;
+string A,B;
 int a,b,carry=0;
-vector<int> ret;
+vector<char> ret;
 int main() {
     
     cin>>A>>B;
 
     int a_size=A.size(),b_size=B.size();
     
-    for(int i=a_size-1;i>=0;i--) {
-        r_A += A[i];
-    }
-
-    for (int i=b_size-1;i>=0;i--) {
-        r_B += B[i];
-    }
     if (a_size>b_size) {
-        int diff = abs(a_size-b_size);
-        while(diff--) {
-            r_B+='0';
-        }
+        int diff = a_size-b_size;
+        while(diff--) B='0'+B;
     } else {
-        int diff = abs(a_size-b_size);
-        while(diff--) {
-            r_A+='0';
-        }
+        int diff = b_size-a_size;
+        while(diff--) A='0'+A;
     }
-    int t_size=r_A.size();
-    for (int i=0;i<t_size;i++) {
-        a=r_A[i]-'0';
-        b=r_B[i]-'0';
+    int t_size=A.size();
+    for (int i=t_size-1;i>=0;i--) {
+        a=A[i]-'0';
+        b=B[i]-'0';
         int val=(a+b+carry)%10;
         carry=(a+b+carry)/10;
-        ret.push_back(val);
+        ret.push_back(val+48);
     }
-    if (carry>0) ret.push_back(carry);
+    if (carry>0) ret.push_back(carry+48);
     for (int i=ret.size()-1;i>=0;i--) {
         cout<<ret[i];
     }
