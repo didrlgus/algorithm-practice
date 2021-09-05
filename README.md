@@ -694,6 +694,7 @@
 ##### 60. 합이 같은 부분집합 (2021/02/27)
 ##### 72. 공주 구하기 (2021/02/28)
 
-## :green_book: codility
+## :green_book: leetcode
 ##### add-binary (2021/08/01)
 ##### daily-temperatures (2021/08/29) -> 나중에 다시 풀어보기
+##### restore-ip-addresses (2021/09/04)
